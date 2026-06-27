@@ -9,6 +9,7 @@ window.SITE_DATA = {
     pinyin: "YUE ZI XI",
     tagline: "作曲 · 编曲 · 词作 —— 古风原创",
     avatar: "assets/img/avatar.jpg",          // 头像图：assets/img/avatar.jpg
+    qqQr: "assets/img/qq-qr.jpg",             // QQ 二维码：保持原图，不做滤镜，确保可扫描
     bio: "古风原创音乐人，主营作曲 / 编曲 / 词作 / 策划 / 和声。承接常规古风、流行约稿，优质原创可商。",
     // "open"=接新中  "limited"=少量名额  "closed"=暂停接单
     commissionStatus: "open",
@@ -47,7 +48,8 @@ window.SITE_DATA = {
       genres: ["古风 / 国风"],
       netease: "3376680349",
       bilibili: "",            // ← B站视频 BV 号填这里，填了会出现「网易云/B站」切换
-      coverPos: "center 15%",  // 封面往上截，露出歌名题字
+      coverPos: "center 44%",  // 让《再越千山》题字主体完整居中
+      coverHeight: "200px",
       vocal: "裂天、小坠、小曲儿、少年霜",
       desc: "五四青年节原创曲。"
     },

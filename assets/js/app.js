@@ -51,10 +51,15 @@
     .map(([k, v]) => {
       const m = cMeta[k] || { label: k };
       const inner = `<div class="contact-item__label">${esc(m.label)}</div>
-                     <div class="contact-item__value">${esc(v)}</div>`;
+                     <div class="contact-item__value">${esc(v)}</div>
+                     ${k === "qq" && p.qqQr ? `<div class="contact-item__qr">
+                       <img src="${esc(p.qqQr)}" alt="QQ 二维码" loading="lazy" decoding="async" />
+                       <span>扫码添加 QQ</span>
+                     </div>` : ""}`;
+      const cls = `contact-item${k === "qq" && p.qqQr ? " contact-item--qr" : ""}`;
       return m.href
-        ? `<a class="contact-item" href="${esc(m.href(v))}" target="_blank" rel="noopener">${inner}</a>`
-        : `<div class="contact-item">${inner}</div>`;
+        ? `<a class="${cls}" href="${esc(m.href(v))}" target="_blank" rel="noopener">${inner}</a>`
+        : `<div class="${cls}">${inner}</div>`;
     }).join("");
 
   /* ---------- 接新详情 / 报价 ---------- */
@@ -148,7 +153,7 @@
         <div class="vinyl">
           <span class="vinyl__cover" style="${cover}"></span>
           <span class="vinyl__hole"></span>
-          <button class="vinyl__btn" type="button" aria-label="播放 / 暂停">▶</button>
+          <button class="vinyl__btn" type="button" aria-label="播放 / 暂停"></button>
         </div>
         ${lyrics}
       </div>
@@ -187,6 +192,7 @@
       const bar = root.querySelector(".p2-bar");
       const btn = stage.querySelector(".vinyl__btn");
       const vinyl = stage.querySelector(".vinyl");
+      const card = stage.closest(".work-card");
       if (!audio || !vinyl) return;
       const lines = inner ? [...inner.querySelectorAll("p")] : [];
       const times = lines.map(l => parseFloat(l.dataset.t || "0"));
@@ -198,9 +204,24 @@
           audio.play().catch(() => {});
         } else audio.pause();
       });
-      audio.addEventListener("play",  () => { stage.dataset.state = "playing"; if (btn) btn.textContent = "⏸"; });
-      audio.addEventListener("pause", () => { stage.dataset.state = "paused";  if (btn) btn.textContent = "▶"; });
-      audio.addEventListener("ended", () => { stage.dataset.state = "paused";  if (btn) btn.textContent = "▶"; });
+      audio.addEventListener("play",  () => {
+        stage.dataset.state = "playing";
+        document.querySelectorAll(".work-card.is-playing").forEach(el => {
+          if (el !== card) el.classList.remove("is-playing");
+        });
+        if (card) card.classList.add("is-playing");
+        if (btn) btn.setAttribute("aria-label", "暂停");
+      });
+      audio.addEventListener("pause", () => {
+        stage.dataset.state = "paused";
+        if (card) card.classList.remove("is-playing");
+        if (btn) btn.setAttribute("aria-label", "播放");
+      });
+      audio.addEventListener("ended", () => {
+        stage.dataset.state = "paused";
+        if (card) card.classList.remove("is-playing");
+        if (btn) btn.setAttribute("aria-label", "播放");
+      });
 
       let last = -1;
       audio.addEventListener("timeupdate", () => {
@@ -240,6 +261,70 @@
     setupPlayers(wrap);
   });
 
+  /* ---------- 滚动增强：导航高亮 / 回到顶部 / 卡片入场 ---------- */
+  const navLinks = [...document.querySelectorAll(".nav__links a")];
+  const sectionIds = navLinks.map(a => a.getAttribute("href")).filter(h => h && h.startsWith("#"));
+  const sections = sectionIds.map(id => document.querySelector(id)).filter(Boolean);
+
+  if ("IntersectionObserver" in window && sections.length) {
+    const navObserver = new IntersectionObserver(entries => {
+      const visible = entries
+        .filter(entry => entry.isIntersecting)
+        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+      if (!visible) return;
+      navLinks.forEach(link => {
+        link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}`);
+      });
+    }, { rootMargin: "-42% 0px -45% 0px", threshold: [0, .2, .6] });
+    sections.forEach(section => navObserver.observe(section));
+  }
+
+  const backtop = document.querySelector(".backtop");
+  if (backtop) {
+    const toggleBacktop = () => backtop.classList.toggle("is-visible", window.scrollY > 420);
+    window.addEventListener("scroll", toggleBacktop, { passive: true });
+    backtop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    toggleBacktop();
+  }
+
+  const canAnimateLight = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  if (canAnimateLight && window.matchMedia("(pointer: fine)").matches) {
+    let lightFrame = 0;
+    window.addEventListener("pointermove", event => {
+      if (lightFrame) return;
+      lightFrame = requestAnimationFrame(() => {
+        document.body.style.setProperty("--spot-x", `${Math.round((event.clientX / window.innerWidth) * 100)}%`);
+        document.body.style.setProperty("--spot-y", `${Math.round((event.clientY / window.innerHeight) * 100)}%`);
+        lightFrame = 0;
+      });
+    }, { passive: true });
+  }
+
+  let revealObserver = null;
+  function setupReveal(scope) {
+    const cards = [...(scope || document).querySelectorAll(".work-card")];
+    if (!cards.length) return;
+    if (!("IntersectionObserver" in window)) {
+      cards.forEach(card => card.classList.add("reveal-in"));
+      return;
+    }
+    if (!revealObserver) {
+      revealObserver = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add("reveal-in");
+          entry.target.classList.remove("reveal-pending");
+          revealObserver.unobserve(entry.target);
+        });
+      }, { threshold: .14 });
+    }
+    cards.forEach((card, i) => {
+      card.classList.add("reveal-pending");
+      card.style.transitionDelay = `${Math.min(i * 45, 180)}ms`;
+      revealObserver.observe(card);
+    });
+  }
+
   /* ---------- 作品筛选 + 渲染 ---------- */
   const filterState = { role: "全部", genre: "全部" };
 
@@ -271,7 +356,12 @@
     $("worksGrid").innerHTML = list.map(w => {
       const t = TRACKS[w.netease] || {};
       const banner = w.cover || t.cover || "";
-      const coverStyle = banner ? `style="background-image:url('${esc(banner)}')"` : "";
+      const coverPos = w.coverPos || "center";
+      const coverSize = w.coverSize || "cover";
+      const coverHeight = w.coverHeight || "";
+      const coverStyle = banner
+        ? `style="background-image:url('${esc(banner)}');background-position:${esc(coverPos)};background-size:${esc(coverSize)}${coverHeight ? `;height:${esc(coverHeight)}` : ""}"`
+        : "";
       const tags = [
         ...(w.roles  || []).map(r => `<span class="mini-tag mini-tag--role">${esc(r)}</span>`),
         ...(w.genres || []).map(g => `<span class="mini-tag">${esc(g)}</span>`),
@@ -291,6 +381,7 @@
       </div>`;
     }).join("");
     setupPlayers();
+    setupReveal($("worksGrid"));
   }
   renderWorks();
 })();
