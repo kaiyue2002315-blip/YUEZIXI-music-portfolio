@@ -264,6 +264,22 @@
     setupPlayers(wrap);
   });
 
+  /* ---------- 图片作品点击放大（灯箱） ---------- */
+  document.addEventListener("click", (e) => {
+    const thumb = e.target.closest(".art-thumb");
+    if (!thumb) return;
+    let lb = document.getElementById("lightbox");
+    if (!lb) {
+      lb = document.createElement("div");
+      lb.id = "lightbox"; lb.className = "lightbox";
+      lb.innerHTML = '<span class="lightbox__close" aria-hidden="true">×</span><img alt="" />';
+      lb.addEventListener("click", () => lb.classList.remove("show"));
+      document.body.appendChild(lb);
+    }
+    lb.querySelector("img").src = thumb.dataset.full;
+    lb.classList.add("show");
+  });
+
   /* ---------- 滚动增强：导航高亮 / 回到顶部 / 卡片入场 ---------- */
   const navLinks = [...document.querySelectorAll(".nav__links a")];
   const sectionIds = navLinks.map(a => a.getAttribute("href")).filter(h => h && h.startsWith("#"));
@@ -357,6 +373,26 @@
 
     $("worksEmpty").hidden = list.length > 0;
     $("worksGrid").innerHTML = list.map(w => {
+      const tags = [
+        ...(w.roles  || []).map(r => `<span class="mini-tag mini-tag--role">${esc(r)}</span>`),
+        ...(w.genres || []).map(g => `<span class="mini-tag">${esc(g)}</span>`),
+        ...(w.moods  || []).map(m => `<span class="mini-tag">${esc(m)}</span>`)
+      ].join("");
+
+      // 美工 / 题字等图片作品：点击放大（无音频播放器）
+      if (w.image) {
+        return `<div class="work-card work-card--art">
+          <button class="art-thumb" type="button" data-full="${esc(w.image)}">
+            <img src="${esc(w.image)}" alt="${esc(w.title)}" loading="lazy" />
+          </button>
+          <div class="work-card__body">
+            <div class="work-card__title">${esc(w.title)}</div>
+            <div class="work-card__tags">${tags}</div>
+            ${w.desc ? `<div class="work-card__desc">${esc(w.desc)}</div>` : ""}
+          </div>
+        </div>`;
+      }
+
       const t = TRACKS[w.netease] || {};
       const banner = w.cover || t.cover || "";
       const coverPos = w.coverPos || "center";
@@ -365,11 +401,6 @@
       const coverStyle = banner
         ? `style="background-image:url('${esc(banner)}');background-position:${esc(coverPos)};background-size:${esc(coverSize)}${coverHeight ? `;height:${esc(coverHeight)}` : ""}"`
         : "";
-      const tags = [
-        ...(w.roles  || []).map(r => `<span class="mini-tag mini-tag--role">${esc(r)}</span>`),
-        ...(w.genres || []).map(g => `<span class="mini-tag">${esc(g)}</span>`),
-        ...(w.moods  || []).map(m => `<span class="mini-tag">${esc(m)}</span>`)
-      ].join("");
       return `<div class="work-card">
         <div class="work-card__cover${banner ? " work-card__cover--img" : ""}" ${coverStyle}>
           ${w.year ? `<span class="work-card__year">${esc(w.year)}</span>` : ""}
