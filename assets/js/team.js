@@ -16,7 +16,16 @@ window.TEAM = {
       title: "作曲 · 作词 · 策划 · 和声",
       avatar: "assets/img/avatar.jpg",
       desc: "古风原创音乐人 · 全平台 id：月紫夕YUEZIXI"
+    },
+    {
+      // 凌雪用自己的作品集站，填 url 即外链跳转（新标签打开），无需站内数据
+      name: "凌雪",
+      title: "作曲 · 编曲",
+      avatar: "https://lingxue4912.github.io/LingXue-music-portfolio/assets/img/TouXiang.jpg",
+      desc: "擅长古风 / 现风 / 电子。",
+      url: "https://lingxue4912.github.io/LingXue-music-portfolio/"
     }
-    // 以后加成员：在这里加一条，并在 data.js 里 window.MEMBERS["新id"] = {...}
+    // 站内成员：加一条带 id 的，并在 data.js 里 window.MEMBERS["新id"] = {...}
+    // 外部成员：加一条带 url 的（指向对方网站），就会外链跳转
   ]
 };

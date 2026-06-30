@@ -15,14 +15,18 @@
   $("footName").textContent = T.name || "";
   document.title = (T.name || "音乐工作室") + " · 承接音乐制作";
 
-  $("membersGrid").innerHTML = (T.members || []).map(m => `
-    <a class="member-card" href="member.html?id=${encodeURIComponent(m.id)}">
+  $("membersGrid").innerHTML = (T.members || []).map(m => {
+    // 有 url 就跳到外部主页（新标签打开），否则进站内 member.html?id=
+    const href = m.url ? esc(m.url) : `member.html?id=${encodeURIComponent(m.id || "")}`;
+    const ext = m.url ? ' target="_blank" rel="noopener"' : "";
+    return `<a class="member-card" href="${href}"${ext}>
       <div class="member-card__avatar">
         <img src="${esc(m.avatar)}" alt="${esc(m.name)}" onerror="this.style.display='none'" />
       </div>
       <div class="member-card__name">${esc(m.name)}</div>
       ${m.title ? `<div class="member-card__title">${esc(m.title)}</div>` : ""}
       ${m.desc ? `<div class="member-card__desc">${esc(m.desc)}</div>` : ""}
-      <div class="member-card__enter">进入主页 →</div>
-    </a>`).join("") || `<p class="empty">暂无成员</p>`;
+      <div class="member-card__enter">进入主页 ${m.url ? "↗" : "→"}</div>
+    </a>`;
+  }).join("") || `<p class="empty">暂无成员</p>`;
 })();
