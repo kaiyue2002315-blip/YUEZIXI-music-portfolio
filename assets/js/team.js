@@ -33,6 +33,13 @@ window.TEAM = {
       title: "和声 · 演唱 · 题字",
       avatar: "assets/img/chiwei/avatar.jpg",
       desc: "原创唱作人 · 全平台同名，兼作词作曲。"
+    },
+    {
+      id: "qingchuji",
+      name: "青初霁",
+      title: "作词 · 策划 · 文案",
+      avatar: "assets/img/qingchuji/avatar.jpg",
+      desc: "词作，主古风，合作多名知名古风歌手。"
     }
     // 站内成员：加一条带 id 的，并在对应数据文件里 window.MEMBERS["新id"] = {...}
     // 外部成员：加一条带 url 的（指向对方网站），就会外链跳转
