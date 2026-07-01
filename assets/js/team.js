@@ -49,6 +49,15 @@ window.TEAM = {
       avatar: "assets/img/qingchuji/avatar.jpg",
       desc: "词作，主古风，合作多名知名古风歌手。",
       collab: ["萧忆情Alex", "以冬", "司南", "三无Marblue", "五色石南叶", "李蚊香", "只有影子（陈拾月）", "Mr.岑"]
+    },
+    {
+      id: "shaodeng",
+      name: "烧灯续昼",
+      title: "作词 · 策划",
+      roles: ["作词", "策划"],
+      avatar: "assets/img/shaodeng/avatar.jpg",
+      desc: "佛系人，主古风 / 流行。当前排单到 7 月。",
+      collab: ["一颗狼星", "小时姑娘", "哦漏", "梦璟SAYA", "晃儿", "醉雪", "玫月", "少年霜", "解忧草", "南偿", "玉璇玑", "唐宋", "云三", "流光Hesh", "毛毛酱"]
     }
     // 站内成员：加一条带 id 的，并在对应数据文件里 window.MEMBERS["新id"] = {...}
     // 外部成员：加一条带 url 的（指向对方网站），就会外链跳转
