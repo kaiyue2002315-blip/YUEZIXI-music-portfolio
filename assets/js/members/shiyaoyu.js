@@ -26,39 +26,40 @@ window.MEMBERS["shiyaoyu"] = {
       title: "舵江东",
       roles: ["策划"],
       genres: ["同人"],
+      vocal: "橙翼 / 花跃社",
       desc: "王者孙权同人曲 · 担任策划",
-      netease: "3388475514",
-      url: "https://163cn.tv/985wpLy"
+      netease: "3388475514"
     },
     {
       title: "莉莉丝的晚餐",
       roles: ["策划"],
       genres: ["流行"],
+      vocal: "朵芊 / 陈粤彬 / 玉璇玑",
       desc: "担任策划",
-      netease: "3357332158",
-      url: "https://163cn.tv/985MWIf"
+      netease: "3357332158"
     },
     {
       title: "巫山海棠",
       roles: ["策划"],
       genres: ["古风 / 国风"],
+      vocal: "张承煜（小魂）",
       desc: "担任策划",
-      netease: "3335313869",
-      url: "https://163cn.tv/985CC8Z"
+      netease: "3335313869"
     },
     {
       title: "溯洄",
       roles: ["歌手统筹"],
       genres: ["同人"],
+      vocal: "群星 · 第五人格全角色大合唱",
       desc: "第五人格 8 周年全角色大合唱 · 担任歌手统筹",
       bilibili: "BV1vHDyBCEQz",
-      cover: "https://i2.hdslb.com/bfs/archive/54f2abf2e98cfdda23b49c0baf29b6913f3195e8.jpg",
-      url: "https://b23.tv/ynmuc4J"
+      cover: "https://i2.hdslb.com/bfs/archive/54f2abf2e98cfdda23b49c0baf29b6913f3195e8.jpg"
     },
     {
       title: "再越千山",
       roles: ["CV统筹"],
       genres: ["古风 / 国风"],
+      vocal: "裂天 / 小坠 / 小曲儿 / 少年霜",
       netease: "3376680349",
       coverPos: "center 44%",
       desc: "五四青年节原创曲 · 担任 CV 统筹"
@@ -67,17 +68,17 @@ window.MEMBERS["shiyaoyu"] = {
       title: "破晓星途",
       roles: ["和编"],
       genres: ["同人"],
+      vocal: "汐灵子 / 鸿尘 / 唐千颜 / 师承章 / 夏翊然 等 20 位",
       desc: "崩坏星穹铁道三周年原创同人角色歌 · 担任和编",
-      netease: "3376258352",
-      url: "https://163cn.tv/9847n39"
+      netease: "3376258352"
     },
     {
       title: "你是人间岁月诗",
       roles: ["和编"],
       genres: ["流行"],
+      vocal: "玉璇玑 / 炸酱面zzang / 阿黎Yuri / 辰小弦 / 玑华 / 昙深几渡砚",
       desc: "担任和编",
-      netease: "3368755801",
-      url: "https://163cn.tv/9845dLR"
+      netease: "3368755801"
     }
   ],
 
