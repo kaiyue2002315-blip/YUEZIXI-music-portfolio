@@ -3,7 +3,12 @@
  * ===================================================================*/
 (function () {
   const _mid = new URLSearchParams(location.search).get("id");
-  const D = (_mid && window.MEMBERS && window.MEMBERS[_mid]) || window.SITE_DATA;
+  // 指定了成员 id 但找不到（可能部署/缓存未更新）→ 回团队页，避免误显示成默认成员
+  if (_mid && (!window.MEMBERS || !window.MEMBERS[_mid])) {
+    location.replace("index.html");
+    return;
+  }
+  const D = (_mid && window.MEMBERS[_mid]) || window.SITE_DATA;
   if (D && D.profile) document.title = D.profile.name + " · 音乐作品集";
   const $ = (id) => document.getElementById(id);
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;" }[c]));
