@@ -94,6 +94,15 @@ window.TEAM = {
       avatar: "assets/img/tongxi/avatar.jpg",
       desc: "原创音乐人 音色少女 / 少御（F3-D6）和编录多种风格皆可",
       collab: ["沈谧仁", "亡海", "醉雪", "南风ZJN", "狐小薰er", "邹秋实", "绛曲", "南偿", "早稻叽", "Mukyo木西", "刘照坤", "秋绘", "朵芊", "五色石南叶"]
+    },
+    {
+      id: "luobo",
+      name: "萝卜萝卜",
+      title: "作词 · 歌手 · rap编排",
+      roles: ["作词", "演唱", "rap编排"],
+      avatar: "assets/img/luobo/avatar.jpg",
+      desc: "全风格可写，舒适区抒情；兼歌手与 rap 编排。",
+      collab: ["醉雪", "折原露露", "花跃社"]
     }
     // 站内成员：加一条带 id 的，并在对应数据文件里 window.MEMBERS["新id"] = {...}
     // 外部成员：加一条带 url 的（指向对方网站），就会外链跳转
