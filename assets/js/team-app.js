@@ -17,10 +17,11 @@
 
   const members = T.members || [];
 
-  /* ---------- 工作室合作名单（各成员 collab 去重汇总） ---------- */
-  const collabAll = (T.collabFeatured && T.collabFeatured.length)
-    ? T.collabFeatured
-    : [...new Set(members.flatMap(m => m.collab || []))];
+  /* ---------- 工作室合作名单：collabFeatured（手动置顶/排序）+ 各成员 collab 自动追加，去重 ---------- */
+  const collabAll = [...new Set([
+    ...(T.collabFeatured || []),
+    ...members.flatMap(m => m.collab || [])
+  ])];
   if ($("teamCollab")) {
     $("teamCollab").innerHTML = collabAll.length
       ? `<span class="team-collab__label">团队成员合作名单</span>${collabAll.map(esc).join(" · ")}<span class="team-collab__note">（排名不分先后）</span>`
