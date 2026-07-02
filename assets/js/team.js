@@ -84,6 +84,15 @@ window.TEAM = {
       avatar: "assets/img/shiyaoyu/avatar.jpg",
       desc: "和编擅长多层厚和声，全风格可做；常规工期 1-3 天。",
       collab: []
+    },
+    {
+      id: "tongxi",
+      name: "童夕",
+      title: "演唱 · 和声编录",
+      roles: ["演唱", "和声"],
+      avatar: "assets/img/tongxi/avatar.jpg",
+      desc: "原创音乐人 · 少女 / 少御音色，中日韩三语，主抒情 / R&B / 流行。",
+      collab: ["沈谧仁", "亡海", "醉雪", "南风ZJN", "狐小薰er", "邹秋实", "绛曲", "南偿", "早稻叽Mukyo木西", "刘照坤", "秋绘", "朵芊", "五色石南叶"]
     }
     // 站内成员：加一条带 id 的，并在对应数据文件里 window.MEMBERS["新id"] = {...}
     // 外部成员：加一条带 url 的（指向对方网站），就会外链跳转
